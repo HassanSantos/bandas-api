@@ -9,4 +9,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface BandaRepository extends MongoRepository<Banda, Integer> {
     List<Banda> findByNome(String nome);
+    Banda findById(int id);
 }

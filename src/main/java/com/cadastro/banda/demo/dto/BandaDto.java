@@ -16,10 +16,14 @@ import lombok.NoArgsConstructor;
 public class BandaDto {
     private int id;
     private String nome;
+    private String genero;
     private int ano;
-    private int idVocalista;
-    private int idBaterista;
-    private int idGuitarrista;
-    private int idBaixista;
+    public int idVocalista;
+    public int idBaterista;
+    public int idGuitarrista;
+    public int idBaixista;
     private Pessoa baterista;
+    private Pessoa baixista;
+    private Pessoa vocalista;
+    private Pessoa guitarrista;
 }

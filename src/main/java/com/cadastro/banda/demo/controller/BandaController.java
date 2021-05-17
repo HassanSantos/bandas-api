@@ -29,8 +29,8 @@ public class BandaController {
     }
 
     @GetMapping(path = "/{id}")
-    public Optional<Banda> buscarBanda(@PathVariable int id){
-        return bandaService.buscarBanda(id);
+    public BandaDto buscarBanda(@PathVariable int id){
+        return bandaService.buscarBandaPorId(id);
     }
 
     @GetMapping(path = "/nome/{nome}")

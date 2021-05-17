@@ -19,8 +19,8 @@ public class PessoaService {
     ModelMapper modelMapper;
 
 
-    public PessoaDto cadastrarInstrumento(PessoaDto pessoaDto) throws BandaException{
-            Pessoa pessoa = new Pessoa();
+    public PessoaDto salvarCadastro(PessoaDto pessoaDto) throws BandaException{
+            Pessoa pessoa;
             pessoa = modelMapper.map(pessoaDto ,Pessoa.class);
             pessoaRepository.save(pessoa);
             return pessoaDto;

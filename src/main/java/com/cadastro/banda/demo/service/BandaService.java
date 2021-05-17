@@ -32,7 +32,7 @@ public class BandaService {
 
     @Autowired
     ModelMapper modelMapper;
-    
+
     @Autowired
     PessoaRepository pessoaRepository;
 
@@ -41,22 +41,30 @@ public class BandaService {
 
     public Boolean cadastrarBanda(BandaDto bandaDto) throws BandaException {
 
-            Pessoa pessoa = pessoaRepository.findById(bandaDto.getIdBaixista()).get();
+        Pessoa baixista = pessoaRepository.findById(bandaDto.getIdBaixista()).get();
+        Pessoa vocalista = pessoaRepository.findById(bandaDto.getIdVocalista()).get();
+        Pessoa guitarrista = pessoaRepository.findById(bandaDto.getIdGuitarrista()).get();
+        Pessoa baterista = pessoaRepository.findById(bandaDto.getIdBaterista()).get();
 
-            Banda banda;
-            bandaDto.setBaterista(pessoa);
-            banda = modelMapper.map(bandaDto, Banda.class);
-            bandaRepository.save(banda);
-            return true;
+        Banda banda;
+        bandaDto.setBaixista(baixista);
+        bandaDto.setVocalista(vocalista);
+        bandaDto.setGuitarrista(guitarrista);
+        bandaDto.setBaterista(baterista);
+        banda = modelMapper.map(bandaDto, Banda.class);
+        bandaRepository.save(banda);
+        return true;
     }
 
+    public BandaDto buscarBandaPorId(int id) {
+        Banda banda = bandaRepository.findById(id);
+        BandaDto bandaDto = new BandaDto();
+        bandaDto = modelMapper.map(banda, BandaDto.class);
+        return bandaDto;
 
-    public Optional<Banda> buscarBanda(int id) {
-        Optional<Banda> banda = bandaRepository.findById(id);
-        return banda;
     }
 
-    public List<Banda> findByNome(String nome){
+    public List<Banda> findByNome(String nome) {
         var banda = bandaRepository.findByNome(nome);
         return banda;
     }
