@@ -33,8 +33,4 @@ public class BandaController {
         return bandaService.buscarBandaPorId(id);
     }
 
-    @GetMapping(path = "/nome/{nome}")
-    public List<Banda> buscarBandaPeloNome(@PathVariable(value="nome") String nome){
-        return bandaService.findByNome(nome);
-    }
 }
