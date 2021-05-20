@@ -2,7 +2,6 @@ package com.cadastro.banda.demo.service;
 
 import java.util.Optional;
 
-
 import com.cadastro.banda.demo.document.Pessoa;
 import com.cadastro.banda.demo.dto.PessoaDto;
 import com.cadastro.banda.demo.exceptions.BandaException;
@@ -35,7 +34,14 @@ public class PessoaService {
 
     }
 
-    public Optional<Pessoa> buscarPessoa(int id) {
-        return pessoaRepository.findById(id);
+    public PessoaDto buscarPessoa(int id) {
+        try {
+            Optional<Pessoa> pessoa = pessoaRepository.findById(id);
+            PessoaDto pessoaDto;
+            pessoaDto = modelMapper.map(pessoa, PessoaDto.class);
+            return pessoaDto;
+        } catch (IllegalArgumentException | ConfigurationException | MappingException e) {
+            throw new BandaException(ExceptionUtils.getMessage(e));
+        }
     }
 }
