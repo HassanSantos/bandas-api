@@ -30,11 +30,8 @@ public class BandaService {
 
     public Boolean cadastrarBanda(BandaDto bandaDto) throws BandaException {
         try {
-            Banda banda = new Banda();
-            bandaDto.setBaixista(pessoaRepository.findById(bandaDto.getIdBaixista()).get());
-            bandaDto.setVocalista(pessoaRepository.findById(bandaDto.getIdVocalista()).get());
-            bandaDto.setGuitarrista(pessoaRepository.findById(bandaDto.getIdGuitarrista()).get());
-            bandaDto.setBaterista(pessoaRepository.findById(bandaDto.getIdBaterista()).get());
+            Banda banda;
+            generateBanda(bandaDto);
             banda = modelMapper.map(bandaDto, Banda.class);
             bandaRepository.save(banda);
             return true;
@@ -42,6 +39,13 @@ public class BandaService {
         } catch (IllegalArgumentException | ConfigurationException | MappingException e) {
             throw new BandaException(ExceptionUtils.getMessage(e));
         }
+    }
+
+    private void generateBanda(BandaDto bandaDto) {
+        bandaDto.setBaixista(pessoaRepository.findById(bandaDto.getIdBaixista()).get());
+        bandaDto.setVocalista(pessoaRepository.findById(bandaDto.getIdVocalista()).get());
+        bandaDto.setGuitarrista(pessoaRepository.findById(bandaDto.getIdGuitarrista()).get());
+        bandaDto.setBaterista(pessoaRepository.findById(bandaDto.getIdBaterista()).get());
     }
 
     public BandaDto buscarBandaPorId(int id) throws BandaException {

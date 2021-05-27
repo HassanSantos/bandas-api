@@ -8,9 +8,9 @@ import com.cadastro.banda.demo.exceptions.BandaException;
 import com.cadastro.banda.demo.repository.PessoaRepository;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.modelmapper.ConfigurationException;
 import org.modelmapper.MappingException;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.ConfigurationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,16 +22,26 @@ public class PessoaService {
     @Autowired
     ModelMapper modelMapper;
 
-    public PessoaDto salvarCadastro(PessoaDto pessoaDto) throws BandaException {
+    public String salvarCadastro(PessoaDto pessoaDto) throws BandaException {
         try {
             Pessoa pessoa;
             pessoa = modelMapper.map(pessoaDto, Pessoa.class);
-            pessoaRepository.save(pessoa);
-            return pessoaDto;
+            if (salvarCadastroPessoa(pessoa)) {
+                return pessoaDto.getNome() + "foi cadastrado com sucesso";
+            }
+            return null;
+
         } catch (IllegalArgumentException | ConfigurationException | MappingException e) {
             throw new BandaException(ExceptionUtils.getMessage(e));
         }
+    }
 
+    public Boolean salvarCadastroPessoa(Pessoa pessoa) {
+        if (pessoaRepository.findByNome(pessoa.getNome()).isEmpty()) {
+            pessoaRepository.save(pessoa);
+            return true;
+        }
+        return false;
     }
 
     public PessoaDto buscarPessoa(int id) {

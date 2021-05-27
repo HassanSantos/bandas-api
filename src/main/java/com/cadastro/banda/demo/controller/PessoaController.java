@@ -25,9 +25,11 @@ public class PessoaController {
     PessoaRepository pessoaRepository;
 
     @PostMapping
-    public PessoaDto cadastrarPessoa(@RequestBody PessoaDto pessoaDto){
-        pessoaService.salvarCadastro(pessoaDto);
-        return pessoaDto;
+    public String cadastrarPessoa(@RequestBody PessoaDto pessoaDto){
+        if(pessoaService.salvarCadastro(pessoaDto) == null){
+            return "O nome já foi cadastrado";
+        } 
+        return pessoaDto.getNome() + "cadastrado com sucesso";
     }
 
     @GetMapping(path = "/{id}")
